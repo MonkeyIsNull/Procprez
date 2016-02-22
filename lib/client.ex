@@ -2,18 +2,20 @@ defmodule Client do
   
   def send_messages() do
     client = self()
-    pong = spawn(Procprez, :pong, [])
+    pong = spawn(Procprez, :start, [])
     send(pong, {:echo, client, "olleh"})
     send(pong, {:ping, client})
     send(pong, {:query_db, client, "select * from foo"})
-    check_messages()
+    send(pong, {:count, client})
+    check_messages(pong)
   end
 
-  def check_messages() do
+  def check_messages(pong) do
     receive do
+       {:count, pid} -> send(pong, {:count, self()}) 
        mesg -> IO.inspect mesg
     end
-    check_messages()
+    check_messages(pong)
   end
 
   def kick_start() do
