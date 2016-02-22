@@ -6,7 +6,7 @@ defmodule Procprez do
                             pong()
       {:ping, pid} -> send(pid, "pong")
                       pong()
-      _ -> IO.puts "Unauthorized message"
+      {_, pid, _}  -> send(pid, "Unauthorized message")
          pong()
     end
   end

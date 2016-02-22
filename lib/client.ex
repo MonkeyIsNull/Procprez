@@ -5,7 +5,7 @@ defmodule Client do
     pong = spawn(Procprez, :pong, [])
     send(pong, {:echo, client, "olleh"})
     send(pong, {:ping, client})
-    send(pong, "foo")
+    send(pong, {:query_db, client, "select * from foo"})
     check_messages()
   end
 
